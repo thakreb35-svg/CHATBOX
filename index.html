@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bhagyashri Chatbot</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#1a0026,#4b0082,#8a2be2);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.chat-container{
+width:380px;
+background:#140022;
+border-radius:15px;
+box-shadow:0 0 20px #9d4edd;
+padding:20px;
+color:white;
+}
+
+.title{
+text-align:center;
+font-size:22px;
+color:#e0aaff;
+margin-bottom:10px;
+}
+
+.chat{
+height:300px;
+overflow-y:auto;
+display:flex;
+flex-direction:column;
+gap:10px;
+padding:10px;
+border:1px solid #9d4edd;
+border-radius:10px;
+}
+
+.msg{
+padding:10px 14px;
+border-radius:15px;
+max-width:70%;
+}
+
+.user{
+background:#9d4edd;
+align-self:flex-end;
+}
+
+.bot{
+background:#2a003f;
+align-self:flex-start;
+}
+
+.input-box{
+display:flex;
+margin-top:10px;
+}
+
+input{
+flex:1;
+padding:10px;
+border:none;
+border-radius:8px;
+outline:none;
+}
+
+button{
+padding:10px 15px;
+border:none;
+margin-left:5px;
+background:#9d4edd;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="chat-container">
+
+<div class="title">💜 Bhagyashri's  Chatbot</div>
+
+<div id="chat" class="chat"></div>
+
+<div class="input-box">
+<input type="text" id="input" placeholder="Ask anything..." onkeypress="enterKey(event)">
+<button onclick="send()">Send</button>
+</div>
+
+</div>
+
+<script>
+
+let clearTimer;
+
+function randomReply(arr){
+return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function send(){
+
+let input=document.getElementById("input");
+let text=input.value.trim();
+
+if(text==="") return;
+
+let chat=document.getElementById("chat");
+
+chat.innerHTML+=`<div class="msg user">${text}</div>`;
+
+setTimeout(()=>{
+chat.innerHTML+=`<div class="msg bot">${reply(text)}</div>`;
+chat.scrollTop=chat.scrollHeight;
+},500);
+
+input.value="";
+
+resetAutoClear();
+}
+
+function reply(q){
+
+q=q.toLowerCase();
+
+if(q.includes("hello")||q.includes("hi"))
+return randomReply([
+"Hello 👋 How can I help you?",
+"Hi there! 😊",
+"Hey! Nice to chat with you."
+]);
+
+else if(q.includes("name"))
+return "This chatbot is created by Bhagyashri Thakre.";
+
+else if(q.includes("ai"))
+return "AI means Artificial Intelligence.";
+
+else
+return randomReply([
+"I am still learning 🤖",
+"Interesting question!",
+"Please ask something else."
+]);
+}
+
+function enterKey(e){
+if(e.key==="Enter") send();
+}
+
+function resetAutoClear(){
+
+clearTimeout(clearTimer);
+
+clearTimer=setTimeout(()=>{
+document.getElementById("chat").innerHTML="";
+},30000); // 30 seconds auto clear
+
+}
+
+</script>
+
+</body>
+</html>
